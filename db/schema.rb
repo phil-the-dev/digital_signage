@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_31_021342) do
+ActiveRecord::Schema.define(version: 2020_02_01_163701) do
 
   create_table "episode_segments", force: :cascade do |t|
     t.integer "episode_id", null: false
     t.integer "segment_id", null: false
+    t.integer "order_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["episode_id"], name: "index_episode_segments_on_episode_id"
@@ -25,6 +26,8 @@ ActiveRecord::Schema.define(version: 2020_01_31_021342) do
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "show_id"
+    t.index ["show_id"], name: "index_episodes_on_show_id"
   end
 
   create_table "segments", force: :cascade do |t|
@@ -42,4 +45,5 @@ ActiveRecord::Schema.define(version: 2020_01_31_021342) do
 
   add_foreign_key "episode_segments", "episodes"
   add_foreign_key "episode_segments", "segments"
+  add_foreign_key "episodes", "shows"
 end

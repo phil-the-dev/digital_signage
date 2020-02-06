@@ -5,5 +5,10 @@
   <%= @episode.title %>
 </p>
 
+<p>
+  <strong>Show:</strong>
+  <%= @episode.show.title %>
+</p>
+
 <%= link_to 'Edit', edit_episode_path(@episode) %> |
 <%= link_to 'Back', episodes_path %>

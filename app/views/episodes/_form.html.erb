@@ -16,6 +16,15 @@
     <%= form.text_field :title %>
   </div>
 
+  <div class="field">
+    <%= form.label :show %>
+    <%= form.hidden_field :show_id %>
+
+    <% show_name = episode.show.present? ? episode.show.name : "" %>
+    <%= text_field_tag 'show_name', show_name %>
+    <div class="selection"></div>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
