@@ -6,21 +6,12 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%
-=begin%>
- <%= stylesheet_link_tag controller.controller_name, media: 'all', 'data-turbolinks-track': 'reload' if DigitalSignage::Application.assets.find_asset("#{controller.controller_name}.css")  %> 
-<%
-=end%>
+    <%= stylesheet_link_tag params[:controller], media: 'all', 'data-turbolinks-track': 'reload' if stylesheet_exists?(params[:controller]) %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag params[:controller], 'data-turbolinks-track': 'reload' if javascript_pack_exists?(params[:controller]) %>
-    <%
-=begin%>
- <%= javascript_pack_tag controller.controller_name, 'data-turbolinks-track': 'reload' if DigitalSignage::Application.assets.find_asset("#{controller.controller_name}.js") %> 
-<%
-=end%>
   </head>
 
-  <body> here: <%= javascript_pack_exists?(params[:controller]) %>
+  <body>
     <%= yield %>
   </body>
 </html>

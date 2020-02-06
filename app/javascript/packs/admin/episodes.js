@@ -3,10 +3,7 @@ const autoComplete = require("@tarekraafat/autocomplete.js/dist/js/autoComplete"
 document.onreadystatechange = function () {
   if (document.readyState == "interactive") {
     const selector = "#show_name"
-    // autoComplete.js on typing event emitter
-    document.querySelector(selector).addEventListener("autoComplete", event => {
-      // console.log(event);
-    });
+    const placeholder = "Shows..."
     // The autoComplete.js Engine instance creator
     const autoCompletejs = new autoComplete({
       data: {
@@ -24,7 +21,7 @@ document.onreadystatechange = function () {
           // Post loading placeholder text
           document
             .querySelector(selector)
-            .setAttribute("placeholder", "Food & Drinks");
+            .setAttribute("placeholder", placeholder);
           // Returns Fetched data
           return data;
         },
@@ -36,7 +33,6 @@ document.onreadystatechange = function () {
         if (a.match > b.match) return 1;
         return 0;
       },
-      placeHolder: "Food & Drinks",
       selector: selector,
       threshold: 0,
       debounce: 0,
@@ -76,7 +72,7 @@ document.onreadystatechange = function () {
           .querySelector(selector)
           .setAttribute("placeholder", selection);
         // Concole log autoComplete data feedback
-        console.log(feedback.selection.value.id);
+
         document.getElementById("episode_show_id").value = feedback.selection.value.id
       }
     });

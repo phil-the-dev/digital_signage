@@ -1,4 +1,5 @@
-class EpisodesController < ApplicationController
+module Admin
+  class EpisodesController < ApplicationController
   before_action :set_episode, only: [:show, :edit, :update, :destroy]
 
   # GET /episodes
@@ -71,4 +72,5 @@ class EpisodesController < ApplicationController
     def episode_params
       params.require(:episode).permit(:title, :show_id)
     end
+end
 end

@@ -1,4 +1,4 @@
-<%= form_with(model: episode, local: true) do |form| %>
+<%= form_with(model: [:admin, episode], local: true) do |form| %>
   <% if episode.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(episode.errors.count, "error") %> prohibited this episode from being saved:</h2>
@@ -20,9 +20,10 @@
     <%= form.label :show %>
     <%= form.hidden_field :show_id %>
 
-    <% show_name = episode.show.present? ? episode.show.name : "" %>
-    <%= text_field_tag 'show_name', show_name %>
+    <% show_name = episode.show.present? ? episode.show.title : "Search Shows..." %>
+    <%= text_field_tag 'show_name',nil, placeholder: show_name  %>
     <div class="selection"></div>
+    <div id="autoComplete_list"></div>
   </div>
 
   <div class="actions">
