@@ -14,9 +14,9 @@
     <% @segments.each do |segment| %>
       <tr>
         <td><%= segment.title %></td>
-        <td><%= link_to 'Show', segment %></td>
-        <td><%= link_to 'Edit', edit_segment_path(segment) %></td>
-        <td><%= link_to 'Destroy', segment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, segment] %></td>
+        <td><%= link_to 'Edit', edit_admin_segment_path(segment) %></td>
+        <td><%= link_to 'Destroy', [:admin, segment], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +24,4 @@
 
 <br>
 
-<%= link_to 'New Segment', new_segment_path %>
+<%= link_to 'New Segment', new_admin_segment_path %>

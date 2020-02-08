@@ -11,12 +11,12 @@
   </thead>
 
   <tbody>
-    <% @episode.each do |episode| %>
+    <% @episodes.each do |episode| %>
       <tr>
         <td><%= episode.title %></td>
-        <td><%= link_to 'Show', episode %></td>
-        <td><%= link_to 'Edit', edit_episode_path(episode) %></td>
-        <td><%= link_to 'Destroy', episode, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, episode] %></td>
+        <td><%= link_to 'Edit', edit_admin_episode_path(episode) %></td>
+        <td><%= link_to 'Destroy', [:admin, episode], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -24,4 +24,4 @@
 
 <br>
 
-<%= link_to 'New Episode', new_episode_path %>
+<%= link_to 'New Episode', new_admin_episode_path %>

@@ -5,5 +5,14 @@
   <%= @show.title %>
 </p>
 
-<%= link_to 'Edit', edit_show_path(@show) %> |
-<%= link_to 'Back', shows_path %>
+<p>
+  <strong>Episodes:</strong>
+  <ul>
+  <% @show.episodes.each do |episode| %>
+    <li><%= link_to episode.title, admin_episode_path(episode) %> : <%= link_to 'Edit', edit_admin_episode_path(episode) %></li>
+  <% end %>
+  </ul>
+</p>
+
+<%= link_to 'Edit', edit_admin_show_path(@show) %> |
+<%= link_to 'Back', admin_shows_path %>

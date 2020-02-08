@@ -1,4 +1,4 @@
-<%= form_with(model: segment, local: true) do |form| %>
+<%= form_with(model: [:admin, segment], local: true) do |form| %>
   <% if segment.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(segment.errors.count, "error") %> prohibited this segment from being saved:</h2>
