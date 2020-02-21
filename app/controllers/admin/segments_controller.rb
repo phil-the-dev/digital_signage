@@ -26,6 +26,7 @@ module Admin
     # POST /segments.json
     def create
       @segment = Segment.new(segment_params)
+      @segment.video.attach( params[:segment][:video])
 
       respond_to do |format|
         if @segment.save
@@ -70,7 +71,7 @@ module Admin
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def segment_params
-        params.require(:segment).permit(:title, :video_url)
+        params.require(:segment).permit(:title)
       end
   end
 end

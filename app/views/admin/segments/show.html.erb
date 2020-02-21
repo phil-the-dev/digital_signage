@@ -5,5 +5,10 @@
   <%= @segment.title %>
 </p>
 
+<p>
+  <strong>Video:</strong>
+  <%= video_tag url_for(@segment.video) %>
+</p>
+
 <%= link_to 'Edit', edit_admin_segment_path(@segment) %> |
 <%= link_to 'Back', admin_segments_path %>
