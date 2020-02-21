@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root 'pages#index'
+  get 'pages/index'
   namespace :admin do
   resources :shows
   resources :episodes
