@@ -26,7 +26,7 @@ module Admin
     # POST /segments.json
     def create
       @segment = Segment.new(segment_params)
-      @segment.video.attach( params[:segment][:video])
+      @segment.video.attach(params[:segment][:video])
 
       respond_to do |format|
         if @segment.save
