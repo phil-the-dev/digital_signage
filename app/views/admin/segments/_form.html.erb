@@ -15,6 +15,17 @@
     <%= form.label :title %>
     <%= form.text_field :title %>
   </div>
+<%#
+  <div class="field">
+    <%= form.label :episode 
+    <%= form.hidden_field :episode_id 
+
+    <% episode_name = segment.episode.present? ? segment.episode.title : "Search Episodes..." 
+    <%= text_field_tag 'episode_name', nil, placeholder: episode_name  
+    <div class="selection"></div>
+    <div id="autoComplete_list"></div>
+  </div>
+%>
 
   <div class="field">
     <%= form.label :video %>

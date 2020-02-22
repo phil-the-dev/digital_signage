@@ -1,1 +1,1 @@
-json.partial! "shows/show", show: @show
+json.partial! "shows/show", show: [:admin, @show]

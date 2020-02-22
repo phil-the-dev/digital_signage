@@ -14,7 +14,7 @@ document.onreadystatechange = function () {
             .setAttribute("placeholder", "Loading...");
           // Fetch External Data Source
           const source = await fetch(
-            "/shows.json"
+            "/admin/shows.json"
           );
 
           const data = await source.json();

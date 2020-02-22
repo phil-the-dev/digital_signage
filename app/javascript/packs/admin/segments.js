@@ -2,8 +2,8 @@ const autoComplete = require("@tarekraafat/autocomplete.js/dist/js/autoComplete"
 
 document.onreadystatechange = function () {
   if (document.readyState == "interactive") {
-    const selector = "#show_name"
-    const placeholder = "Shows..."
+    const selector = "#episode_name"
+    const placeholder = "Episodes..."
     // The autoComplete.js Engine instance creator
     const autoCompletejs = new autoComplete({
       data: {
@@ -14,7 +14,7 @@ document.onreadystatechange = function () {
             .setAttribute("placeholder", "Loading...");
           // Fetch External Data Source
           const source = await fetch(
-            "/shows.json"
+            "/episodes.json"
           );
 
           const data = await source.json();
@@ -73,7 +73,7 @@ document.onreadystatechange = function () {
           .setAttribute("placeholder", selection);
         // Concole log autoComplete data feedback
 
-        document.getElementById("episode_show_id").value = feedback.selection.value.id
+        document.getElementById("segment_episode_id").value = feedback.selection.value.id
       }
     });
   }
