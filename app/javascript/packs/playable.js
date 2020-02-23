@@ -18,8 +18,16 @@ require("channels")
 document.onreadystatechange = function () {
   if (document.readyState == "interactive") {
     player = document.getElementById("main-player");
-    player.addEventListener("ended", function() {
-      console.log('here')
-    })
+    player.addEventListener("ended", function () {
+      moveToNextVideo(player)
+    });
   }
+}
+
+function moveToNextVideo(player) {
+  position = parseInt(player.dataset.currentPosition) + 1;
+  playlist = JSON.parse(player.dataset.playlist);
+  player.src = playlist[position].file;
+  player.play();
+  player.dataset.currentPosition = position;
 }
