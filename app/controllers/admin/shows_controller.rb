@@ -43,7 +43,7 @@ module Admin
     def update
       respond_to do |format|
         if @show.update(show_params)
-          format.html { redirect_to @show, notice: 'Show was successfully updated.' }
+          format.html { redirect_to [:admin, @show], notice: 'Show was successfully updated.' }
           format.json { render :show, status: :ok, location: @show }
         else
           format.html { render :edit }
