@@ -42,9 +42,9 @@ module Admin
     # PATCH/PUT /segments/1
     # PATCH/PUT /segments/1.json
     def update
-      respond_to do |format|
-        if @segment.update(segment_params)
-          format.html { redirect_to @segment, notice: 'Segment was successfully updated.' }
+      respond_to do |format| 
+      if @segment.update(segment_params) && @segment.video.attach(params[:segment][:video])
+          format.html { redirect_to [:admin, @segment], notice: 'Segment was successfully updated.' }
           format.json { render :show, status: :ok, location: @segment }
         else
           format.html { render :edit }

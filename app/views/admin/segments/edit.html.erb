@@ -1,6 +1,6 @@
 <h1>Editing Segment</h1>
 
-<%= render 'form', Segment: @segment %>
+<%= render 'form', segment: @segment %>
 
-<%= link_to 'Show', @segment %> |
-<%= link_to 'Back', shows_path %>
+<%= link_to 'Show', [:admin, @segment] %> |
+<%= link_to 'Back', admin_shows_path %>
