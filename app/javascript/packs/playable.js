@@ -15,3 +15,11 @@ require("channels")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+document.onreadystatechange = function () {
+  if (document.readyState == "interactive") {
+    player = document.getElementById("main-player");
+    player.addEventListener("ended", function() {
+      console.log('here')
+    })
+  }
+}

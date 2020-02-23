@@ -11,6 +11,6 @@
 
   <body>
     <%#= yield %>
-    <%= video_tag url_for(@videos.first), { data: { playlist: @videos[1..-1] } } %>
+    <%= video_tag @videos.first[:file], { id: 'main-player', data: { current_position: 1,  playlist: @videos } } %>
   </body>
 </html>
