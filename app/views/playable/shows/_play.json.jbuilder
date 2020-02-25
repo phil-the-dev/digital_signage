@@ -1,0 +1,1 @@
+json.array! json.extract! @videos, :id, :file

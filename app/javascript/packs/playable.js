@@ -17,17 +17,71 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 document.onreadystatechange = function () {
   if (document.readyState == "interactive") {
-    player = document.getElementById("main-player");
-    player.addEventListener("ended", function () {
-      moveToNextVideo(player)
-    });
+    obj = new Player('main-player');
+
+
   }
 }
 
-function moveToNextVideo(player) {
-  position = parseInt(player.dataset.currentPosition) + 1;
-  playlist = JSON.parse(player.dataset.playlist);
-  player.src = playlist[position].file;
-  player.play();
-  player.dataset.currentPosition = position;
+function endOfPlaylist(player) {
+  //check if end
+  //continue if not
+  //get new list if possible
+  //if not, start at top
 }
+
+function Player(elementId) {
+  obj = {
+    player: document.getElementById(elementId),
+    get position() { return parseInt(this.player.dataset.currentPosition) },
+    get playlist() { return JSON.parse(this.player.dataset.playlist) },
+
+    set position(new_position) { this.player.dataset.currentPosition = parseInt(new_position) },
+    set playlist(new_playlist) { this.player.dataset.playlist = new_playlist },
+
+    get endOfPlaylist() { return this.position == this.playlist.length - 1 },
+    get currentVideo() { return this.playlist[this.position] },
+
+    moveToNextVideo: function () {
+      this.position += 1;
+      this.player.src = this.playlist[this.position].file;
+      this.player.play();
+      if (this.endOfPlaylist) {
+        response = ableToGetMore()
+        if (response == "NO-CONTENT") {
+          //if you can get a new list, then do so
+          this.position = -1;
+        } else {
+          //else restart
+          current_video = this.currentVideo;
+          response_playlist = JSON.parse(response)
+          this.playlist = JSON.stringify([this.currentVideo].concat(response_playlist));
+          this.position = 0;
+        }
+      }
+    }
+  }
+
+  obj.player.addEventListener("ended", function () {
+    obj.moveToNextVideo()
+  }.bind(this));
+
+
+  function ableToGetMore() {
+    var uri = window.location + ".json"
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", uri, false);
+    xhr.send(null);
+    if (xhr.status == 200) {
+      //is online
+      return xhr.responseText;
+    }
+    else {
+      //is offline
+      return "NO-CONTENT";
+    }
+  }
+
+  return obj;
+}
+
