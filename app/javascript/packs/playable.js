@@ -19,15 +19,12 @@ document.onreadystatechange = function () {
 }
 
 function Player(elementId) {
+  player = document.getElementById(elementId);
   obj = {
-    player: document.getElementById(elementId),
+    player,
+    playlist: JSON.parse(player.dataset.playlist),
+    position: parseInt(player.dataset.currentPosition),
     reloadPending: false,
-
-    get position() { return parseInt(this.player.dataset.currentPosition) },
-    get playlist() { return JSON.parse(this.player.dataset.playlist) },
-
-    set position(new_position) { this.player.dataset.currentPosition = parseInt(new_position) },
-    set playlist(new_playlist) { this.player.dataset.playlist = new_playlist },
 
     get endOfPlaylist() { return this.position == this.playlist.length - 1 },
     get currentVideo() { return this.playlist[this.position] },
@@ -58,7 +55,7 @@ function Player(elementId) {
         } else {
           console.debug("got new playlist");
           new_playlist = JSON.parse(response)
-          this.playlist = JSON.stringify([this.currentVideo].concat(new_playlist));
+          this.playlist = [this.currentVideo].concat(new_playlist);
           this.position = 0;
         }
       }
@@ -80,9 +77,12 @@ function Player(elementId) {
     }
   }
 
-  obj.player.addEventListener("ended", function () {
+  player.addEventListener("ended", function () {
     obj.moveToNextVideo()
   }.bind(this));
+
+  player.removeAttribute('data-playlist')
+  player.removeAttribute('data-current-position')
 
   return obj;
 }
