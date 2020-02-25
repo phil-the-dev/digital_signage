@@ -47,17 +47,34 @@ function Player(elementId) {
       this.player.src = this.playlist[this.position].file;
       this.player.play();
       if (this.endOfPlaylist) {
-        response = ableToGetMore()
-        if (response == "NO-CONTENT") {
-          //if you can get a new list, then do so
-          this.position = -1;
-        } else {
-          //else restart
-          current_video = this.currentVideo;
-          response_playlist = JSON.parse(response)
-          this.playlist = JSON.stringify([this.currentVideo].concat(response_playlist));
-          this.position = 0;
-        }
+        this.restartPlaylist();
+      }
+    },
+
+    restartPlaylist: function () {
+      response = this.ableToGetMore()
+      if (response == "NO-CONTENT") {
+        console.log("unable to reach server, looping back...");
+        this.position = -1;
+      } else {
+        console.log("reached server, fetching new playlist...");
+        this.playlist = JSON.stringify([this.currentVideo].concat(JSON.parse(response)));
+        this.position = 0;
+      }
+    },
+
+    ableToGetMore: function () {
+      var uri = window.location + ".json"
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", uri, false);
+      xhr.send(null);
+      if (xhr.status == 200) {
+        //is online
+        return xhr.responseText;
+      }
+      else {
+        //is offline
+        return "NO-CONTENT";
       }
     }
   }
@@ -65,22 +82,6 @@ function Player(elementId) {
   obj.player.addEventListener("ended", function () {
     obj.moveToNextVideo()
   }.bind(this));
-
-
-  function ableToGetMore() {
-    var uri = window.location + ".json"
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", uri, false);
-    xhr.send(null);
-    if (xhr.status == 200) {
-      //is online
-      return xhr.responseText;
-    }
-    else {
-      //is offline
-      return "NO-CONTENT";
-    }
-  }
 
   return obj;
 }

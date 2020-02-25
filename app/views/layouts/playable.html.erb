@@ -11,6 +11,6 @@
 
   <body>
     <%#= yield %>
-    <%= video_tag @videos.first[:file], { id: 'main-player', controls: "true", preload:"auto", data: { current_position: 0,  playlist: @videos } } %>
+    <%= video_tag @videos.first[:file], { id: 'main-player', controls: "true", preload: "auto", data: { current_position: 0,  playlist: @videos } } %>
   </body>
 </html>
