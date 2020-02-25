@@ -21,6 +21,8 @@ document.onreadystatechange = function () {
 function Player(elementId) {
   obj = {
     player: document.getElementById(elementId),
+    reloadPending: false,
+
     get position() { return parseInt(this.player.dataset.currentPosition) },
     get playlist() { return JSON.parse(this.player.dataset.playlist) },
 
@@ -31,11 +33,15 @@ function Player(elementId) {
     get currentVideo() { return this.playlist[this.position] },
 
     moveToNextVideo: function () {
-      this.position += 1;
-      this.player.src = this.playlist[this.position].file;
-      this.player.play();
-      if (this.endOfPlaylist) {
-        this.restartPlaylist();
+      if (this.reloadPending) {
+        location.reload();
+      } else {
+        this.position += 1;
+        this.player.src = this.playlist[this.position].file;
+        this.player.play();
+        if (this.endOfPlaylist) {
+          this.restartPlaylist();
+        }
       }
     },
 
@@ -45,9 +51,16 @@ function Player(elementId) {
         console.debug("unable to reach server, looping back...");
         this.position = -1;
       } else {
-        console.debug("reached server, fetching new playlist...");
-        this.playlist = JSON.stringify([this.currentVideo].concat(JSON.parse(response)));
-        this.position = 0;
+        console.debug("reached server!");
+        if (response == "REFRESH") {
+          console.debug("got reload command, will reload");
+          this.reloadPending = true;
+        } else {
+          console.debug("got new playlist");
+          new_playlist = JSON.parse(response)
+          this.playlist = JSON.stringify([this.currentVideo].concat(new_playlist));
+          this.position = 0;
+        }
       }
     },
 
