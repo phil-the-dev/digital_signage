@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_175620) do
+ActiveRecord::Schema.define(version: 2020_02_26_031026) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -33,6 +33,18 @@ ActiveRecord::Schema.define(version: 2020_02_08_175620) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "auth_users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_auth_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_auth_users_on_reset_password_token", unique: true
+  end
+
   create_table "episode_segments", force: :cascade do |t|
     t.integer "episode_id", null: false
     t.integer "segment_id", null: false
@@ -52,6 +64,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_175620) do
   end
 
   create_table "segments", force: :cascade do |t|
+    t.string "video_url"
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
