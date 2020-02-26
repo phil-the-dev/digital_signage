@@ -1,5 +1,5 @@
-module Playable
-  class EpisodesController < PlayableController
+module Kiosk
+  class EpisodesController < KioskController
     def play
       @videos = episode.resolve.map { |segment| { id: segment.id, file: url_for(segment.video) } }
     end

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :segments
   end
 
-  namespace :playable do
+  namespace :kiosk do
     [:shows, :episodes, :segments].each do |playable|
       resources playable, only: [] do
         member do
