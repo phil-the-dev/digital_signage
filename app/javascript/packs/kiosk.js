@@ -14,11 +14,11 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 document.onreadystatechange = function () {
   if (document.readyState == "interactive") {
-    obj = new Player('main-player');
+    kiosk = new Kiosk('main-player');
   }
 }
 
-function Player(elementId) {
+function Kiosk(elementId) {
   player = document.getElementById(elementId);
   obj = {
     player,
