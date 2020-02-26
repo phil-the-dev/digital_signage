@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_031026) do
+ActiveRecord::Schema.define(version: 2020_02_26_040353) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -63,6 +63,14 @@ ActiveRecord::Schema.define(version: 2020_02_26_031026) do
     t.index ["show_id"], name: "index_episodes_on_show_id"
   end
 
+  create_table "kiosks", force: :cascade do |t|
+    t.string "code"
+    t.text "url"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "segments", force: :cascade do |t|
     t.string "video_url"
     t.string "title"
@@ -76,8 +84,27 @@ ActiveRecord::Schema.define(version: 2020_02_26_031026) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "user_kiosks", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "kiosks_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["kiosks_id"], name: "index_user_kiosks_on_kiosks_id"
+    t.index ["user_id"], name: "index_user_kiosks_on_user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.integer "auth_user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["auth_user_id"], name: "index_users_on_auth_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "episode_segments", "episodes"
   add_foreign_key "episode_segments", "segments"
   add_foreign_key "episodes", "shows"
+  add_foreign_key "user_kiosks", "kiosks", column: "kiosks_id"
+  add_foreign_key "user_kiosks", "users"
+  add_foreign_key "users", "auth_users"
 end

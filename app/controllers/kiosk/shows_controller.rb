@@ -1,5 +1,4 @@
-module Kiosk
-  class ShowsController < KioskController
+  class Kiosk::ShowsController < KioskController
     def play
       @videos = show.episodes.map{ |ep| ep.resolve.map { |segment| { id: segment.id, file: url_for(segment.video) } } }.flatten 
     end
@@ -9,4 +8,3 @@ module Kiosk
       @show ||= Show.find(params[:id])
     end
   end
-end

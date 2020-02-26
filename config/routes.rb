@@ -9,11 +9,13 @@ Rails.application.routes.draw do
     resources :segments
   end
 
-  namespace :kiosk do
-    [:shows, :episodes, :segments].each do |playable|
-      resources playable, only: [] do
-        member do
-          get :play
+  resources :kiosk, only: [:index] do
+    collection do
+      [:shows, :episodes, :segments].each do |playable|
+        resources playable, only: [] do
+          member do
+            get :play
+          end
         end
       end
     end
