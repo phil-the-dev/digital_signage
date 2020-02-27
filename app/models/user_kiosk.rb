@@ -1,4 +1,4 @@
 class UserKiosk < ApplicationRecord
   belongs_to :user
-  belongs_to :kiosks
+  belongs_to :kiosk
 end

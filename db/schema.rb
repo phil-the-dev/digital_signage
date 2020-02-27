@@ -86,10 +86,10 @@ ActiveRecord::Schema.define(version: 2020_02_26_040353) do
 
   create_table "user_kiosks", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "kiosks_id", null: false
+    t.integer "kiosk_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["kiosks_id"], name: "index_user_kiosks_on_kiosks_id"
+    t.index ["kiosk_id"], name: "index_user_kiosks_on_kiosk_id"
     t.index ["user_id"], name: "index_user_kiosks_on_user_id"
   end
 
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_040353) do
   add_foreign_key "episode_segments", "episodes"
   add_foreign_key "episode_segments", "segments"
   add_foreign_key "episodes", "shows"
-  add_foreign_key "user_kiosks", "kiosks", column: "kiosks_id"
+  add_foreign_key "user_kiosks", "kiosks"
   add_foreign_key "user_kiosks", "users"
   add_foreign_key "users", "auth_users"
 end

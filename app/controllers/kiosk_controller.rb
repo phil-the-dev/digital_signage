@@ -6,12 +6,18 @@ class KioskController < ApplicationController
   end
 
   def index
+    @kiosk = Kiosk.create!
+  end
+
+  def show
+    @kiosk = Kiosk.find(params[:id])
+    redirect_to @kiosk.url if(@kiosk.url.present?)
   end
 
   private 
 
   def choose_layout
-    params["action"] == "index" ? "application" : "kiosk"
+    params["action"] == "play" ? "kiosk" : "application"
   end
 
   def setup_kiosk

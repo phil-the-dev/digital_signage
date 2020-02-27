@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   devise_for :auth_users
   root 'pages#index'
-  get 'pages/index'
+  get '/link', to: 'pages#link'
+  post '/link', to: 'pages#link_kiosk', as: :user_kiosks
 
   namespace :admin do
     resources :shows
@@ -9,7 +10,7 @@ Rails.application.routes.draw do
     resources :segments
   end
 
-  resources :kiosk, only: [:index] do
+  resources :kiosk, only: [:index, :show] do
     collection do
       [:shows, :episodes, :segments].each do |playable|
         resources playable, only: [] do

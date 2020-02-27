@@ -1,0 +1,28 @@
+
+<%= form_with(model: @user_kiosk, local: true) do |form| %>
+  <% if @user_kiosk.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user_kiosk.errors.count, "error") %> prohibited this link from being saved:</h2>
+
+      <ul>
+        <% @user_kiosk.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :kiosk_code %>
+    <%= form.text_field :code %>
+  </div>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+   <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
