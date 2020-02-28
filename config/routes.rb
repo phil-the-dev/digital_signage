@@ -4,19 +4,20 @@ Rails.application.routes.draw do
   get '/link', to: 'pages#link'
   post '/link', to: 'pages#link_kiosk', as: :user_kiosks
 
+  get '/kiosks', to: 'pages#kiosks'
+
   namespace :admin do
     resources :shows
     resources :episodes
     resources :segments
   end
 
-  resources :kiosk, only: [:index, :show] do
-    collection do
-      [:shows, :episodes, :segments].each do |playable|
-        resources playable, only: [] do
-          member do
-            get :play
-          end
+  resources :kiosk, only: [:index, :show] 
+  namespace :kiosk do
+    [:shows, :episodes, :segments].each do |playable|
+      resources playable, only: [] do
+        member do
+          get :play
         end
       end
     end

@@ -1,6 +1,12 @@
 import consumer from "./consumer"
-console.log("kioskchannelstuff")
-consumer.subscriptions.create("KioskChannel", {
+
+consumer.subscriptions.create(
+  { channel: "KioskChannel", room: 1 }, {
+  received(data) {
+    debugger
+    console.log("got data", data)
+  },
+
   // Called once when the subscription is created.
   initialized() {
     this.update = this.update.bind(this)
@@ -8,8 +14,11 @@ consumer.subscriptions.create("KioskChannel", {
 
   // Called when the subscription is ready for use on the server.
   connected() {
-    this.install()
-    this.update()
+    setTimeout(function () {
+      this.install()
+      this.update()
+    }.bind(this), 1000)
+
   },
 
   // Called when the WebSocket connection is closed.
@@ -23,50 +32,68 @@ consumer.subscriptions.create("KioskChannel", {
   },
 
   update() {
-    this.isVideoPlaying ? this.appear() : this.away()
+    const player = document.getElementById('main-player');
+    if (player != null) {
+      !player.paused ? this.play() : this.pause()
+    }
   },
 
-  appear() {
+  play() {
     // Calls `AppearanceChannel#appear(data)` on the server.
     // this.perform("appear", { appearing_on: this.appearingOn })
-    this.perform("playing")
+    console.log("playing!!!")
+    this.perform("playing", { kiosk: 1 })
+    if (document.getElementById('kiosk-1') != null)
+      document.getElementById('kiosk-1').innerText = "Pause"
   },
 
-  away() {
+  pause() {
     // Calls `AppearanceChannel#away` on the server.
     // this.perform("away")
-    this.perform("paused")
+    console.log("pausing!!!")
+    this.perform("paused", { kiosk: 1 })
+    if (document.getElementById('kiosk-1') != null)
+      document.getElementById('kiosk-1').innerText = "Play"
   },
 
   install() {
     console.log("installing...")
-    window.addEventListener("focus", this.update)
-    window.addEventListener("blur", this.update)
-    document.addEventListener("turbolinks:load", this.update)
-    document.addEventListener("visibilitychange", this.update)
-    document.getElementById('main-player').addEventListener("playing", this.update)
-    document.getElementById('main-player').addEventListener("pause", this.update)
+    const player = document.getElementById('main-player');
+
+
+    // player.addEventListener("playing", this.update)
+    // player.addEventListener("pause", this.update)
+    if (player != null) {
+      player.onpause = this.update
+      player.onplay = this.update
+    } else {
+      document.getElementById('kiosk-1').onclick = function () {
+        if (document.getElementById('kiosk-1').innerText === "Play") {
+          this.perform("paused", { kiosk: 1, source: 'button' })
+        } else {
+          this.perform("play", { kiosk: 1, source: 'button' })
+
+        }
+      }.bind(this)
+    }
+
   },
 
   uninstall() {
     console.log("uninstalling...")
-    window.removeEventListener("focus", this.update)
-    window.removeEventListener("blur", this.update)
-    document.removeEventListener("turbolinks:load", this.update)
-    document.removeEventListener("visibilitychange", this.update)
-    document.getElementById('main-player').removeEventListener("playing", this.update)
-    document.getElementById('main-player').removeEventListener("pause", this.update)
-
+    const player = document.getElementById('main-player');
+    player.removeEventListener("playing", this.update)
+    player.removeEventListener("pause", this.update)
   },
 
   get isVideoPlaying() {
+    // console.log(this.player)
     const player = document.getElementById('main-player');
-    console.log(player)
+    console.log("isplaying", player ? !player.paused : false)
     return player ? !player.paused : false;
   },
 
-  // get appearingOn() {
-  //   const element = document.querySelector("[data-appearing-on]")
-  //   return element ? element.getAttribute("data-appearing-on") : null
-  // }
+  get player() {
+    return document.getElementById('main-player');
+  }
 })

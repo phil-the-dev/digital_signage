@@ -22,4 +22,8 @@ class PagesController < ApplicationController
       end
     end
   end
+
+  def kiosks
+    @kiosks = Kiosk.all
+  end
 end
