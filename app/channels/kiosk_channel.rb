@@ -1,6 +1,6 @@
 class KioskChannel < ApplicationCable::Channel
   def subscribed
-    stream_for Kiosk.find(params[:room])
+    stream_for Kiosk.find(params[:kiosk_id])
   end
   
   def unsubscribed
@@ -10,7 +10,7 @@ class KioskChannel < ApplicationCable::Channel
     KioskChannel.broadcast_to Kiosk.first, data
   end
 
-  def paused(data)
+  def pause(data)
     KioskChannel.broadcast_to Kiosk.first, data
   end
 end

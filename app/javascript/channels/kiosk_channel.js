@@ -1,55 +1,27 @@
 import consumer from "./consumer"
 
-// Select the node that will be observed for mutations
-// const targetNode = document.getElementById('some-id');
-
-// // Options for the observer (which mutations to observe)
-// const config = { attributes: true, childList: true, subtree: true };
-
-// // Callback function to execute when mutations are observed
-// const callback = function(mutationsList, observer) {
-//     // Use traditional 'for loops' for IE 11
-//     for(let mutation of mutationsList) {
-//         if (mutation.type === 'childList') {
-//             console.log('A child node has been added or removed.');
-//         }
-//         else if (mutation.type === 'attributes') {
-//             console.log('The ' + mutation.attributeName + ' attribute was modified.');
-//         }
-//     }
-// };
-
-// // Create an observer instance linked to the callback function
-// const observer = new MutationObserver(callback);
-
-// // Start observing the target node for configured mutations
-// observer.observe(targetNode, config);
-
 consumer.subscriptions.create(
-  { channel: "KioskChannel", room: 1 }, {
+  { channel: "KioskChannel", kiosk_id: 1 }, {
 
   player: undefined,
   button: undefined,
+  action: { pause: 'pause', play: 'play' },
   fetchPlayer() { return document.getElementById('main-player') },
   fetchButton() { return document.getElementById('kiosk-1') },
+  playerVisible() { return this.player != null; },
+  buttonVisible() { return this.button != null; },
 
   received(data) {
-    console.log(data)
-    if (this.player != null) {
-      console.log('player action')
-      if (data.action == "paused") {
-        console.log("player pausing")
+    if (data.action == this.action.pause) {
+      if (this.playerVisible()) {
         this.player.pause();
-      } else if (data.action == "play") {
-        console.log("player playing")
-        this.player.play();
-      }
-    } else if (this.button != null) {
-      if (data.action == "paused") {
-        console.log('here')
+      } else if (this.buttonVisible()) {
         this.button.innerText = "Play"
-      } else if (data.action == "play") {
-        console.log('here2')
+      }
+    } else if (data.action == this.action.play) {
+      if (this.playerVisible()) {
+        this.player.play();
+      } else if (this.buttonVisible()) {
         this.button.innerText = "Pause"
       }
     }
@@ -69,7 +41,6 @@ consumer.subscriptions.create(
       this.install()
       this.update()
     }.bind(this), 1000)
-
   },
 
   // Called when the WebSocket connection is closed.
@@ -95,7 +66,7 @@ consumer.subscriptions.create(
   },
 
   pause() {
-    this.perform("paused", { kiosk: 1 })
+    this.perform(this.action.pause, { kiosk: 1 })
     if (this.button != null)
       this.button.innerText = "Play"
   },
@@ -107,9 +78,9 @@ consumer.subscriptions.create(
     } else if (this.button != null) {
       this.button.onclick = function (e) {
         if (e.target.innerText === "Play") {
-          this.perform("play", { kiosk: 1, source: 'button' })
+          this.perform(this.action.play, { kiosk: 1 })
         } else {
-          this.perform("paused", { kiosk: 1, source: 'button' })
+          this.perform(this.action.pause, { kiosk: 1 })
         }
       }.bind(this)
     }
