@@ -72,7 +72,6 @@ ActiveRecord::Schema.define(version: 2020_02_26_040353) do
   end
 
   create_table "segments", force: :cascade do |t|
-    t.string "video_url"
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

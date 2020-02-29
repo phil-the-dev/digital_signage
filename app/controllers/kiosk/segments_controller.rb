@@ -1,5 +1,5 @@
 class Kiosk::SegmentsController < KioskController
   def play
-    @videos = [Segment.first.video]
+    @videos = [{ id: Segment.first.id, file: url_for(Segment.first.video) }]
   end
 end

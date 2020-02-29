@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DigitalSignage</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'playable', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'playable', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%#= yield %>
+    <%= video_tag @videos.first[:file], { id: 'main-player', data: { current_position: 1,  playlist: @videos } } %>
+  </body>
+</html>
