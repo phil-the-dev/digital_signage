@@ -1,5 +1,4 @@
 class KioskController < ApplicationController
-  layout :choose_layout
   before_action :setup_kiosk
 
   def play
@@ -11,14 +10,11 @@ class KioskController < ApplicationController
 
   def show
     @kiosk = Kiosk.find(params[:id])
-    redirect_to @kiosk.url if(@kiosk.url.present?)
+    @videos = @kiosk.playable.episodes.map{ |ep| ep.resolve.map { |segment| { id: segment.id, file: url_for(segment.video) } } }.flatten 
+    render layout: "kiosk"
   end
 
   private 
-
-  def choose_layout
-    params["action"] == "play" ? "kiosk" : "application"
-  end
 
   def setup_kiosk
     @playable = Struct.new(:videos) do

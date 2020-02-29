@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_040353) do
 
   create_table "kiosks", force: :cascade do |t|
     t.string "code"
-    t.text "url"
+    t.text "playable_id"
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

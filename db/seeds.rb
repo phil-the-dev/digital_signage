@@ -38,7 +38,7 @@ episode_segment1 = EpisodeSegment.create!( episode: episode, segment: segment1, 
 episode_segment2 = EpisodeSegment.create!( episode: episode, segment: segment2, order_number: 2 )
 
 # create kiosk
-kiosk = Kiosk.create!( code:"ABCD", url: "", name: "Front Lobby" )
+kiosk = Kiosk.create!( code:"ABCD", playable_id: show.playable_id, name: "Front Lobby" )
 
 # create user kiosk
 user_kiosk = UserKiosk.create!( user: user, kiosk: kiosk )
