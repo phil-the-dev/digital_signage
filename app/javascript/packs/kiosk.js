@@ -30,6 +30,7 @@ function Kiosk(elementId) {
     get currentVideo() { return this.playlist[this.position] },
 
     moveToNextVideo: function () {
+      this.player.dataset.isTransitioning = true;
       if (this.reloadPending) {
         location.reload();
       } else {
@@ -80,6 +81,10 @@ function Kiosk(elementId) {
   player.addEventListener("ended", function () {
     obj.moveToNextVideo()
   }.bind(this));
+
+  player.addEventListener("playing", function(){
+    player.dataset.isTransitioning = false;
+  })
 
   player.removeAttribute('data-playlist')
   player.removeAttribute('data-current-position')

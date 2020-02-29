@@ -54,13 +54,15 @@ consumer.subscriptions.create(
   },
 
   update() {
-    if (this.player != null) {
-      !this.player.paused ? this.play() : this.pause()
+    if (this.player != null) { 
+      if(!this.player.dataset.isTransitioning) {
+        !this.player.paused ? this.play() : this.pause()
+      }
     }
   },
 
   play() {
-    this.perform("playing", { kiosk: 1 })
+    this.perform(this.action.play, { kiosk: 1 })
     if (this.button != null)
       this.button.innerText = "Pause"
   },
