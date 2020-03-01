@@ -12,7 +12,12 @@ Rails.application.routes.draw do
     resources :segments
   end
 
-  resources :kiosk, only: [:index, :show] 
+  resources :kiosk, only: [:index, :show] do
+    collection do
+    get :link
+    post :link, to: 'pages#link_kiosk', as: :link_kiosk
+    end
+  end
   namespace :kiosk do
     [:shows, :episodes, :segments].each do |playable|
       resources playable, only: [] do

@@ -3,6 +3,7 @@ class CreateUserKiosks < ActiveRecord::Migration[6.0]
     create_table :user_kiosks do |t|
       t.references :user, null: false, foreign_key: true
       t.references :kiosk, null: false, foreign_key: true
+      t.string :auth_token
 
       t.timestamps
     end

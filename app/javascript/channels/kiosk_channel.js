@@ -1,13 +1,16 @@
 import consumer from "./consumer"
 
+document.addEventListener("turbolinks:load", function() {
+  const kiosk_id = document.getElementById("kiosk-id");
+
 consumer.subscriptions.create(
-  { channel: "KioskChannel", kiosk_id: 1 }, {
+  { channel: "KioskChannel", kiosk_id: kiosk_id.value }, {
 
   player: undefined,
   button: undefined,
   action: { pause: 'pause', play: 'play' },
   fetchPlayer() { return document.getElementById('main-player') },
-  fetchButton() { return document.getElementById('kiosk-1') },
+  fetchButton() { return document.getElementById('kiosk-'+kiosk_id.value) },
   playerVisible() { return this.player != null; },
   buttonVisible() { return this.button != null; },
 
@@ -96,4 +99,5 @@ consumer.subscriptions.create(
   get isVideoPlaying() {
     return this.player ? !this.player.paused : false;
   },
+})
 })

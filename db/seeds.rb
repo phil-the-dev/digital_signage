@@ -34,11 +34,11 @@ segment2.video.attach(io: segment2_file, filename: segment2_filename)
 segment2.save!
 # create episode-segment
 
-episode_segment1 = EpisodeSegment.create!( episode: episode, segment: segment1, order_number: 1 )
-episode_segment2 = EpisodeSegment.create!( episode: episode, segment: segment2, order_number: 2 )
+episode_segment1 = EpisodeSegment.create!( episode_id: episode.id, segment_id: segment1.id, order_number: 1 )
+episode_segment2 = EpisodeSegment.create!( episode_id: episode.id, segment_id: segment2.id, order_number: 2 )
 
 # create kiosk
 kiosk = Kiosk.create!( code:"ABCD", playable_id: show.playable_id, name: "Front Lobby" )
 
 # create user kiosk
-user_kiosk = UserKiosk.create!( user: user, kiosk: kiosk )
+user_kiosk = UserKiosk.create!( user_id: user.id, kiosk_id: kiosk.id )

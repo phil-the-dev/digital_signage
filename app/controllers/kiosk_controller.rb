@@ -1,5 +1,6 @@
 class KioskController < ApplicationController
   before_action :setup_kiosk
+  layout "application"
 
   def play
   end
@@ -10,6 +11,7 @@ class KioskController < ApplicationController
 
   def show
     @videos = Kiosk.find(params[:id]).playable.resolve
+    @kiosk = Kiosk.find(params[:id])
     render layout: "kiosk"
   end
 

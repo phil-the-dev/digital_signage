@@ -11,6 +11,7 @@
 
   <body>
     <%#= yield %>
+    <%= hidden_field_tag "kiosk-id", @kiosk.id %>
     <%= video_tag @videos.first[:file], { id: 'main-player', data: { current_position: 1,  playlist: @videos } } %>
   </body>
 </html>

@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_040353) do
   create_table "user_kiosks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "kiosk_id", null: false
+    t.string "auth_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["kiosk_id"], name: "index_user_kiosks_on_kiosk_id"
