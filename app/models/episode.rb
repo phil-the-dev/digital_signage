@@ -1,11 +1,12 @@
 class Episode < ApplicationRecord
   include Playable
+
   has_many :episode_segments
   has_many :segments, through: :episode_segments
   belongs_to :show
 
   def resolve
-    self.ordered_segments.with_attached_video
+    self.ordered_segments.with_attached_video.map { |segment| segment.resolve }
   end
 
   def ordered_segments
