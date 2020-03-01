@@ -1,5 +1,9 @@
 class Kiosk::SegmentsController < KioskController
   def play
-    @videos = [{ id: Segment.first.id, file: url_for(Segment.first.video) }]
+    @videos = segment.resolve
   end
+
+  private
+  def segment
+    @segment ||= Segment.find(params[:id])
 end
