@@ -2,6 +2,76 @@ import consumer from "./consumer"
 
 document.addEventListener("turbolinks:load", function() {
   const kiosk_id = document.getElementById("kiosk-id");
+  const buttons = document.querySelectorAll("button.kiosk-control")
+  console.log(buttons)
+  for(let i = 0; i < buttons.length; i++){
+    consumer.subscriptions.create(
+      { channel: "KioskChannel", kiosk_id: kiosk_id.value }, {
+    
+      button: button[i],
+      action: { pause: 'pause', play: 'play' },
+      buttonVisible() { return this.button != null; },
+    
+      received(data) {
+        if (data.action == this.action.pause) {
+            this.button.innerText = "Play"
+          
+        } else if (data.action == this.action.play) {
+            this.button.innerText = "Pause"
+          
+        }
+      },
+    
+      // Called once when the subscription is created.
+      initialized() {
+        this.update = this.update.bind(this)
+      },
+    
+      // Called when the subscription is ready for use on the server.
+      connected() {
+    
+          this.install()
+          this.update()
+      },
+    
+      // Called when the WebSocket connection is closed.
+      disconnected() {
+        this.uninstall()
+      },
+    
+      // Called when the subscription is rejected by the server.
+      rejected() {
+        this.uninstall()
+      },
+    
+      update() {
+      },
+    
+      play() {
+        this.perform(this.action.play, { kiosk: 1 })
+        if (this.button != null)
+          this.button.innerText = "Pause"
+      },
+    
+      pause() {
+        this.perform(this.action.pause, { kiosk: 1 })
+        if (this.button != null)
+          this.button.innerText = "Play"
+      },
+    
+      install() {
+          this.button.onclick = function (e) {
+            if (e.target.innerText === "Play") {
+              this.perform(this.action.play, { kiosk: 1 })
+            } else {
+              this.perform(this.action.pause, { kiosk: 1 })
+            }
+          }.bind(this)
+        
+      },
+    })
+    
+  }
 
 consumer.subscriptions.create(
   { channel: "KioskChannel", kiosk_id: kiosk_id.value }, {

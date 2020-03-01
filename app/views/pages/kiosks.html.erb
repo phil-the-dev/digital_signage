@@ -2,7 +2,9 @@
   <% @kiosks.each do |kiosk| %>
     <tr>
       <td><%= kiosk.name %></td>
-      <td><button id="kiosk-1">Pause</button>
+      <!--<td><button class="kiosk-control" data-kiosk-id=>Pause</button></td>-->
+      <td><%= button_tag "Play", type: "button", class:"kiosk-control", data: { kioskId: kiosk.id } %></td>
+
     </tr>
   <% end %>
 </table>
