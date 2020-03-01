@@ -9,9 +9,7 @@ class KioskController < ApplicationController
   end
 
   def show
-    @kiosk = Kiosk.find(params[:id])
-    # @videos = @kiosk.playable.episodes.map{ |ep| ep.resolve.map { |segment| { id: segment.id, file: url_for(segment.video) } } }.flatten ? 
-    @videos = @kiosk.playable.resolve
+    @videos = Kiosk.find(params[:id]).playable.resolve
     render layout: "kiosk"
   end
 
