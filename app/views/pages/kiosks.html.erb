@@ -3,9 +3,7 @@
     <tr>
       <td><%= kiosk.id %></td>
       <td><%= kiosk.name %></td>
-      <!--<td><button class="kiosk-control" data-kiosk-id=>Pause</button></td>-->
       <td><%= button_tag "Play", type: "button", class:"kiosk-control", data: { kiosk_id: kiosk.id } %></td>
-
     </tr>
   <% end %>
 </table>
