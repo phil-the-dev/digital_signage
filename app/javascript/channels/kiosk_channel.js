@@ -1,173 +1,141 @@
 import consumer from "./consumer"
 
-document.addEventListener("turbolinks:load", function() {
-  const kiosk_id = document.getElementById("kiosk-id");
-  const buttons = document.querySelectorAll("button.kiosk-control")
-  console.log(buttons)
-  for(let i = 0; i < buttons.length; i++){
+document.addEventListener("turbolinks:load", function () {
+  const buttons = document.querySelectorAll('button.kiosk-control')
+
+  for (let i = 0; i < buttons.length; i++) {
+    let btn = buttons[i]
     consumer.subscriptions.create(
-      { channel: "KioskChannel", kiosk_id: kiosk_id.value }, {
-    
-      button: button[i],
+      { channel: "KioskChannel", kiosk_id: btn.dataset.kioskId }, {
       action: { pause: 'pause', play: 'play' },
-      buttonVisible() { return this.button != null; },
-    
       received(data) {
         if (data.action == this.action.pause) {
-            this.button.innerText = "Play"
-          
+          btn.innerText = "Play";
         } else if (data.action == this.action.play) {
-            this.button.innerText = "Pause"
-          
+          btn.innerText = "Pause";
         }
       },
-    
+
       // Called once when the subscription is created.
       initialized() {
         this.update = this.update.bind(this)
       },
-    
+
       // Called when the subscription is ready for use on the server.
       connected() {
-    
-          this.install()
-          this.update()
+        this.install()
+        this.update()
       },
-    
+
       // Called when the WebSocket connection is closed.
       disconnected() {
         this.uninstall()
       },
-    
+
+      uninstall() {
+
+      },
+
       // Called when the subscription is rejected by the server.
       rejected() {
         this.uninstall()
       },
-    
+
       update() {
+
       },
-    
-      play() {
-        this.perform(this.action.play, { kiosk: 1 })
-        if (this.button != null)
-          this.button.innerText = "Pause"
-      },
-    
-      pause() {
-        this.perform(this.action.pause, { kiosk: 1 })
-        if (this.button != null)
-          this.button.innerText = "Play"
-      },
-    
+
       install() {
-          this.button.onclick = function (e) {
-            if (e.target.innerText === "Play") {
-              this.perform(this.action.play, { kiosk: 1 })
-            } else {
-              this.perform(this.action.pause, { kiosk: 1 })
-            }
-          }.bind(this)
-        
+        btn.onclick = function (e) {
+          if (e.target.innerText === "Play") {
+            this.perform(this.action.play)
+          } else {
+            this.perform(this.action.pause)
+          }
+        }.bind(this)
       },
     })
-    
+
   }
+})
+document.addEventListener("turbolinks:load", function () {
+  const kiosk_id = document.getElementById("kiosk-id")
 
-consumer.subscriptions.create(
-  { channel: "KioskChannel", kiosk_id: kiosk_id.value }, {
+  consumer.subscriptions.create(
+    { channel: "KioskChannel", kiosk_id: kiosk_id.value }, {
 
-  player: undefined,
-  button: undefined,
-  action: { pause: 'pause', play: 'play' },
-  fetchPlayer() { return document.getElementById('main-player') },
-  fetchButton() { return document.getElementById('kiosk-'+kiosk_id.value) },
-  playerVisible() { return this.player != null; },
-  buttonVisible() { return this.button != null; },
+    player: undefined,
+    action: { pause: 'pause', play: 'play' },
+    fetchPlayer() { return document.getElementById('main-player') },
+    playerVisible() { return this.player != null; },
+    fetchButton(kiosk_id) { return document.querySelector("button.kiosk-control[data-kiosk_id='" + kiosk_id + "']") },
+    buttonVisible(kiosk_id) { return this.fetchButton(kiosk_id) != null },
+    allButtons() { return },
 
-  received(data) {
-    if (data.action == this.action.pause) {
-      if (this.playerVisible()) {
-        this.player.pause();
-      } else if (this.buttonVisible()) {
-        this.button.innerText = "Play"
+    received(data) {
+      if (data.action == this.action.pause) {
+        if (this.playerVisible()) {
+          this.player.pause();
+        }
+      } else if (data.action == this.action.play) {
+        if (this.playerVisible()) {
+          this.player.play();
+        }
       }
-    } else if (data.action == this.action.play) {
-      if (this.playerVisible()) {
-        this.player.play();
-      } else if (this.buttonVisible()) {
-        this.button.innerText = "Pause"
-      }
-    }
-  },
+    },
 
-  // Called once when the subscription is created.
-  initialized() {
-    this.update = this.update.bind(this)
-  },
+    // Called once when the subscription is created.
+    initialized() {
+      this.update = this.update.bind(this)
+    },
 
-  // Called when the subscription is ready for use on the server.
-  connected() {
-    setTimeout(function () {
+    // Called when the subscription is ready for use on the server.
+    connected() {
       this.player = this.fetchPlayer();
-      this.button = this.fetchButton();
-
       this.install()
       this.update()
-    }.bind(this), 1000)
-  },
+    },
 
-  // Called when the WebSocket connection is closed.
-  disconnected() {
-    this.uninstall()
-  },
+    // Called when the WebSocket connection is closed.
+    disconnected() {
+      this.uninstall()
+    },
 
-  // Called when the subscription is rejected by the server.
-  rejected() {
-    this.uninstall()
-  },
+    // Called when the subscription is rejected by the server.
+    rejected() {
+      this.uninstall()
+    },
 
-  update() {
-    if (this.player != null) { 
-      if(!this.player.dataset.isTransitioning) {
-        !this.player.paused ? this.play() : this.pause()
-      }
-    }
-  },
-
-  play() {
-    this.perform(this.action.play, { kiosk: 1 })
-    if (this.button != null)
-      this.button.innerText = "Pause"
-  },
-
-  pause() {
-    this.perform(this.action.pause, { kiosk: 1 })
-    if (this.button != null)
-      this.button.innerText = "Play"
-  },
-
-  install() {
-    if (this.player != null) {
-      this.player.onpause = this.update
-      this.player.onplay = this.update
-    } else if (this.button != null) {
-      this.button.onclick = function (e) {
-        if (e.target.innerText === "Play") {
-          this.perform(this.action.play, { kiosk: 1 })
-        } else {
-          this.perform(this.action.pause, { kiosk: 1 })
+    update() {
+      if (this.player != null) {
+        if (!this.player.dataset.isTransitioning) {
+          !this.player.paused ? this.play() : this.pause()
         }
-      }.bind(this)
-    }
-  },
+      }
+    },
 
-  uninstall() {
-    this.player.removeEventListener("playing", this.update)
-    this.player.removeEventListener("pause", this.update)
-  },
+    play() {
+      this.perform(this.action.play)
+    },
 
-  get isVideoPlaying() {
-    return this.player ? !this.player.paused : false;
-  },
-})
+    pause() {
+      this.perform(this.action.pause)
+    },
+
+    install() {
+      if (this.player != null) {
+        this.player.onpause = this.update
+        this.player.onplay = this.update
+      }
+    },
+
+    uninstall() {
+      this.player.removeEventListener("playing", this.update)
+      this.player.removeEventListener("pause", this.update)
+    },
+
+    get isVideoPlaying() {
+      return this.player ? !this.player.paused : false;
+    },
+  })
 })
