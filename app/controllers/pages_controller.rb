@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  before_action :authenticate_auth_user!, only: [:link, :link_kiosk, :kiosks]
+
   def index
   end
 
@@ -8,7 +10,7 @@ class PagesController < ApplicationController
 
   def link_kiosk
     @user_kiosk = UserKiosk.new
-    @user_kiosk.user = User.first
+    @user_kiosk.user = current_auth_user.user
     kiosk = Kiosk.where(code: params.dig("user_kiosk", "code")).first
     kiosk.name = params[:user_kiosk][:name]
     kiosk.playable_id = Show.first.playable_id
@@ -29,6 +31,6 @@ class PagesController < ApplicationController
   end
 
   def kiosks
-    @kiosks = Kiosk.all
+    @kiosks = current_auth_user.user.kiosks
   end
 end
