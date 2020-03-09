@@ -14,8 +14,11 @@ Rails.application.routes.draw do
 
   resources :kiosk, only: [:index, :show] do
     collection do
-    get :link
-    post :link, to: 'pages#link_kiosk', as: :link_kiosk
+      get :link
+      post :link, to: 'pages#link_kiosk', as: :link_kiosk
+    end
+    member do
+      get :authenticate
     end
   end
   namespace :kiosk do

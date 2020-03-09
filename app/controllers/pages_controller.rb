@@ -9,18 +9,13 @@ class PagesController < ApplicationController
   end
 
   def link_kiosk
-    @user_kiosk = UserKiosk.new
-    @user_kiosk.user = current_auth_user.user
+    user = current_auth_user.user
     kiosk = Kiosk.where(code: params.dig("user_kiosk", "code")).first
     kiosk.name = params[:user_kiosk][:name]
-    kiosk.playable_id = Show.first.playable_id
-    kiosk.save!
 
-    @user_kiosk.kiosk = kiosk
-    @user_kiosk.save!
     respond_to do |format|
-      if @user_kiosk.save
-        UserKioskChannel.broadcast_to kiosk, { action: "link", kiosk_path: kiosk_path(kiosk) }
+      if KioskLinkingService.perform(kiosk, user)
+        UserKioskChannel.broadcast_to kiosk, { action: "link", kiosk_path:  authenticate_kiosk_path(kiosk) }
         format.html { redirect_to kiosks_path, notice: 'Kiosk link was successfully created.' }
         format.json { render :show, status: :created, location: @user_kiosk.kiosk }
       else
