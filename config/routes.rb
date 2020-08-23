@@ -6,6 +6,11 @@ Rails.application.routes.draw do
 
   get '/kiosks', to: 'pages#kiosks'
 
+  namespace :api do
+    namespace :v1 do
+    end
+  end
+
   namespace :admin do
     resources :shows
     resources :episodes
