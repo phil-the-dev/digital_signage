@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :episodes
     resources :segments
     resources :playlists
+    resources :playlist_playables
   end
 
   resources :kiosk, only: [:index, :show] do

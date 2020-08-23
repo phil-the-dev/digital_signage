@@ -2,5 +2,5 @@
 
 <%= render 'form', playlist_playable: @playlist_playable %>
 
-<%= link_to 'Show', @playlist_playable %> |
-<%= link_to 'Back', playlist_playables_path %>
+<%= link_to 'Show', [:admin, @playlist_playable] %> |
+<%= link_to 'Back', admin_playlist_playables_path %>

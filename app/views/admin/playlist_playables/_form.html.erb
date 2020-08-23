@@ -1,4 +1,4 @@
-<%= form_with(model: playlist_playable, local: true) do |form| %>
+<%= form_with(model: [:admin, playlist_playable], local: true) do |form| %>
   <% if playlist_playable.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(playlist_playable.errors.count, "error") %> prohibited this playlist_playable from being saved:</h2>

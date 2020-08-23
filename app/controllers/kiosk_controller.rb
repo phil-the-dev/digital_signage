@@ -31,10 +31,8 @@ class KioskController < ApplicationController
 
   def authenticate_kiosk!
     if(!session[:kiosk_auth])
-      binding.pry
       redirect_to kiosk_index_path
     elsif(UserKiosk.where(kiosk: kiosk, auth_token: session[:kiosk_auth]).count == 0)
-      binding.pry
       session[:kiosk_auth] = nil
       redirect_to kiosk_index_path
     end

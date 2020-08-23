@@ -18,9 +18,9 @@
         <td><%= playlist_playable.playlist_id %></td>
         <td><%= playlist_playable.playable_id %></td>
         <td><%= playlist_playable.order %></td>
-        <td><%= link_to 'Show', playlist_playable %></td>
-        <td><%= link_to 'Edit', edit_playlist_playable_path(playlist_playable) %></td>
-        <td><%= link_to 'Destroy', playlist_playable, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', [:admin, playlist_playable] %></td>
+        <td><%= link_to 'Edit', edit_admin_playlist_playable_path(playlist_playable) %></td>
+        <td><%= link_to 'Destroy', [:admin, playlist_playable], method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,4 +28,4 @@
 
 <br>
 
-<%= link_to 'New Playlist Playable', new_playlist_playable_path %>
+<%= link_to 'New Playlist Playable', new_admin_playlist_playable_path %>
