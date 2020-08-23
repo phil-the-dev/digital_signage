@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
+      resources :playlists
     end
   end
 
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
     resources :shows
     resources :episodes
     resources :segments
+    resources :playlists
   end
 
   resources :kiosk, only: [:index, :show] do

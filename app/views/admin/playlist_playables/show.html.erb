@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Playlist:</strong>
+  <%= @playlist_playable.playlist_id %>
+</p>
+
+<p>
+  <strong>Playable:</strong>
+  <%= @playlist_playable.playable_id %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @playlist_playable.order %>
+</p>
+
+<%= link_to 'Edit', edit_playlist_playable_path(@playlist_playable) %> |
+<%= link_to 'Back', playlist_playables_path %>

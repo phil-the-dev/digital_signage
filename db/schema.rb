@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_26_040353) do
+ActiveRecord::Schema.define(version: 2020_08_23_203941) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -71,6 +71,21 @@ ActiveRecord::Schema.define(version: 2020_02_26_040353) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "playlist_playables", force: :cascade do |t|
+    t.integer "playlist_id", null: false
+    t.string "playable_id"
+    t.integer "order"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["playlist_id"], name: "index_playlist_playables_on_playlist_id"
+  end
+
+  create_table "playlists", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "segments", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
@@ -104,6 +119,7 @@ ActiveRecord::Schema.define(version: 2020_02_26_040353) do
   add_foreign_key "episode_segments", "episodes"
   add_foreign_key "episode_segments", "segments"
   add_foreign_key "episodes", "shows"
+  add_foreign_key "playlist_playables", "playlists"
   add_foreign_key "user_kiosks", "kiosks"
   add_foreign_key "user_kiosks", "users"
   add_foreign_key "users", "auth_users"
