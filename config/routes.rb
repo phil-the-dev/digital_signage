@@ -8,7 +8,11 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :playlists
+      resources :kiosk, only: [] do
+        member do
+          get 'videos'
+        end
+      end
     end
   end
 
