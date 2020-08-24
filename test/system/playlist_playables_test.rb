@@ -14,10 +14,7 @@ class PlaylistPlayablesTest < ApplicationSystemTestCase
     visit playlist_playables_url
     click_on "New Playlist Playable"
 
-    fill_in "Order", with: @playlist_playable.order
-    fill_in "Playable", with: @playlist_playable.playable_id
-    fill_in "Playlist", with: @playlist_playable.playlist_id
-    click_on "Create Playlist playable"
+    fill_in 'Order Number', with: @playlist_playable.order_number
 
     assert_text "Playlist playable was successfully created"
     click_on "Back"
@@ -27,10 +24,7 @@ class PlaylistPlayablesTest < ApplicationSystemTestCase
     visit playlist_playables_url
     click_on "Edit", match: :first
 
-    fill_in "Order", with: @playlist_playable.order
-    fill_in "Playable", with: @playlist_playable.playable_id
-    fill_in "Playlist", with: @playlist_playable.playlist_id
-    click_on "Update Playlist playable"
+    fill_in 'Order Number', with: @playlist_playable.order_number
 
     assert_text "Playlist playable was successfully updated"
     click_on "Back"

@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_203941) do
   create_table "playlist_playables", force: :cascade do |t|
     t.integer "playlist_id", null: false
     t.string "playable_id"
-    t.integer "order"
+    t.integer "order_number"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["playlist_id"], name: "index_playlist_playables_on_playlist_id"

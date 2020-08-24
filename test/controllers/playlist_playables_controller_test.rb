@@ -17,7 +17,7 @@ class PlaylistPlayablesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create playlist_playable" do
     assert_difference('PlaylistPlayable.count') do
-      post playlist_playables_url, params: { playlist_playable: { order: @playlist_playable.order, playable_id: @playlist_playable.playable_id, playlist_id: @playlist_playable.playlist_id } }
+      post playlist_playables_url, params: { playlist_playable: { order: @playlist_playable.order_number, playable_id: @playlist_playable.playable_id, playlist_id: @playlist_playable.playlist_id } }
     end
 
     assert_redirected_to playlist_playable_url(PlaylistPlayable.last)
@@ -33,8 +33,7 @@ class PlaylistPlayablesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should update playlist_playable" do
-    patch playlist_playable_url(@playlist_playable), params: { playlist_playable: { order: @playlist_playable.order, playable_id: @playlist_playable.playable_id, playlist_id: @playlist_playable.playlist_id } }
+    patch playlist_playable_url(@playlist_playable), params: { playlist_playable: { order: @playlist_playable.order_number, playable_id: @playlist_playable.playable_id, playlist_id: @playlist_playable.playlist_id } }
     assert_redirected_to playlist_playable_url(@playlist_playable)
   end
 
