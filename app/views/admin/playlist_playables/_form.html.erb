@@ -1,0 +1,32 @@
+<%= form_with(model: [:admin, playlist_playable], local: true) do |form| %>
+  <% if playlist_playable.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(playlist_playable.errors.count, "error") %> prohibited this playlist_playable from being saved:</h2>
+
+      <ul>
+        <% playlist_playable.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :playlist_id %>
+    <%= form.text_field :playlist_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :playable_id %>
+    <%= form.text_field :playable_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :order %>
+    <%= form.text_field :order %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
