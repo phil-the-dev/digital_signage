@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :kiosk, only: [] do
+      resources :kiosk, only: [:new] do
         member do
           get 'videos'
         end
