@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   devise_for :auth_users
   root 'pages#index'
@@ -13,6 +15,11 @@ Rails.application.routes.draw do
           get 'videos'
         end
       end
+      resources :user, only: [] do
+        member do
+          get 'kiosks'
+        end
+      end
     end
   end
 
@@ -24,7 +31,7 @@ Rails.application.routes.draw do
     resources :playlist_playables
   end
 
-  resources :kiosk, only: [:index, :show] do
+  resources :kiosk, only: %i[index show] do
     collection do
       get :link
       post :link, to: 'pages#link_kiosk', as: :link_kiosk
@@ -34,7 +41,7 @@ Rails.application.routes.draw do
     end
   end
   namespace :kiosk do
-    [:shows, :episodes, :segments].each do |playable|
+    %i[shows episodes segments].each do |playable|
       resources playable, only: [] do
         member do
           get :play
