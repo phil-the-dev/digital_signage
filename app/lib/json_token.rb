@@ -4,7 +4,7 @@ module JsonToken
   module_function
 
   ALG = 'HS256'
-  SEC = ENV['JWT_SECRET']
+  SEC = Rails.application.secret_key_base
 
   def encode(payload, _expiration = nil)
     # expiration ||= Rails.application.secrets.jwt_expiration_hours

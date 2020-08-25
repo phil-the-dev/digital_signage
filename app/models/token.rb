@@ -3,7 +3,6 @@
 class Token < ApplicationRecord
   belongs_to :auth_user
 
-  validates :name, presence: true
   validates :token, presence: true
 
   scope :active, -> { where('deleted = false') }
@@ -11,7 +10,7 @@ class Token < ApplicationRecord
   scope :deleted, -> { where('deleted = true') }
 
   def make_token
-    self.token = JsonToken.encode({ user_id: user_id })
+    self.token = JsonToken.encode({ auth_user_id: auth_user_id })
     self
   end
 
