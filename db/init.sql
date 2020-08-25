@@ -1,0 +1,2 @@
+CREATE USER leafly;
+ALTER USER leafly WITH SUPERUSER;
