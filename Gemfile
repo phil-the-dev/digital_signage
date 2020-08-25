@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 gem 'devise'
+gem 'jwt'
 
 group :production do
   # Use Redis adapter to run Action Cable in production
