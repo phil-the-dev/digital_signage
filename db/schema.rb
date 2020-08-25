@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_203941) do
+ActiveRecord::Schema.define(version: 2020_08_25_135435) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -98,6 +98,16 @@ ActiveRecord::Schema.define(version: 2020_08_23_203941) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "tokens", force: :cascade do |t|
+    t.string "name"
+    t.string "token"
+    t.boolean "deleted", default: true, null: false
+    t.integer "auth_user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["auth_user_id"], name: "index_tokens_on_auth_user_id"
+  end
+
   create_table "user_kiosks", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "kiosk_id", null: false
@@ -120,6 +130,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_203941) do
   add_foreign_key "episode_segments", "segments"
   add_foreign_key "episodes", "shows"
   add_foreign_key "playlist_playables", "playlists"
+  add_foreign_key "tokens", "auth_users"
   add_foreign_key "user_kiosks", "kiosks"
   add_foreign_key "user_kiosks", "users"
   add_foreign_key "users", "auth_users"

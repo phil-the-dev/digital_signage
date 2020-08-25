@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @token.name %>
+</p>
+
+<p>
+  <strong>Token:</strong>
+  <%= @token.token %>
+</p>
+
+<p>
+  <strong>Deleted:</strong>
+  <%= @token.deleted %>
+</p>
+
+<p>
+  <strong>Auth user:</strong>
+  <%= @token.auth_user_id %>
+</p>
+
+<%= link_to 'Edit', edit_token_path(@token) %> |
+<%= link_to 'Back', tokens_path %>

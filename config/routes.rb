@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :tokens
   devise_for :auth_users
   root 'pages#index'
   get '/link', to: 'pages#link'
