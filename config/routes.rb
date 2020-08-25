@@ -17,8 +17,13 @@ Rails.application.routes.draw do
         end
       end
       resources :user, only: [] do
-        member do
+        collection do
           get 'kiosks'
+        end
+      end
+      resources :auth_user, only: [] do
+        collection do
+          post 'register'
         end
       end
     end

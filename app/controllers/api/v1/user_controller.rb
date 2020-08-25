@@ -3,15 +3,14 @@
 module Api
   module V1
     class UserController < ApiController
+      before_action :authenticate_auth_user!
+
       def kiosks
-        kiosks = current_user.kiosks.map { |k| { name: k.name, id: k.id } }
+        binding.pry
+        kiosks = current_auth_user.user.kiosks.map { |k| { name: k.name, id: k.id } }
         render json: {
           kiosks: kiosks
         }
-      end
-
-      def current_user
-        @current_user ||= User.find(params[:id])
       end
     end
   end
