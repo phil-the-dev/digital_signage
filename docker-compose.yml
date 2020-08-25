@@ -13,25 +13,25 @@ services:
       - RAILS_ENV=development
       - NODE_ENV=development
       - SERVICE=api
-    # depends_on: 
-    #   - db
+    depends_on: 
+      - db
     ports:
       - "3000:3000"
       - "1234:1234"
       - "26162:26162"
     networks:
       - dev-network
-  # db:
-  #   image: postgres:12.1
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data
-  #     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-  #   ports:
-  #     - "5431:5432"
-  #   networks: :
-  #     - dev-network
+  db:
+    image: postgres:12.1
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5431:5432"
+    networks:
+      - dev-network
 networks:
   dev-network:
     external: true
-# volumes: 
-#   db_data:
+volumes: 
+  db_data:
