@@ -6,11 +6,8 @@ module Api
       before_action :authenticate_auth_user!
 
       def kiosks
-        binding.pry
         kiosks = current_auth_user.user.kiosks.map { |k| { name: k.name, id: k.id } }
-        render json: {
-          kiosks: kiosks
-        }
+        render json: { kiosks: kiosks }
       end
     end
   end

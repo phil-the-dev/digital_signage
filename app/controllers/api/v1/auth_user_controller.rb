@@ -3,9 +3,8 @@
 module Api
   module V1
     class AuthUserController < ApiController
-      def sign_in; end
+      before_action :authenticate_auth_user!, only: [:sign_out]
 
-      def sign_out; end
 
       def register
         auth_user = AuthUser.create!(auth_user_params)
