@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   resources :tokens
   devise_for :auth_users, controllers: {
-    sessions: 'auth_users/sessions'
+    sessions: 'auth_users/sessions',
     registrations: 'auth_users/registrations'
   }
   root 'pages#index'
