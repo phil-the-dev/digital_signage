@@ -1,2 +1,7 @@
 CREATE USER leafly;
 ALTER USER leafly WITH SUPERUSER;
+
+CREATE DATABASE development
+OWNER leafly;
+CREATE DATABASE test
+OWNER leafly;
