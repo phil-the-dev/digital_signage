@@ -1,0 +1,21 @@
+name: "AWS CLI"
+description: "Build an AWS CLI container"
+inputs:
+  CLI_VERSION:
+    description: "A version of aws cli to install and execute"
+    required: false
+    default: "1.16.240"
+  AWS_CMD:
+    description: "The name of a shell script to be executed as the ENTRYPOINT of the container"
+    required: false
+    default: "ecr-login.sh"
+outputs:
+  response:
+    description: "The response from executing the aws cli command"
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  env:
+    AWS_CMD: ${{ inputs.AWS_CMD }}
+    AWS_ACCESS_KEY_ID: ${{ inputs.AWS_ACCESS_KEY_ID }}
+    AWS_SECRET_ACCESS_KEY: ${{ inputs.AWS_SECRET_ACCESS_KEY }}

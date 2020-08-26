@@ -1,0 +1,50 @@
+name: Push to Master
+on: push
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    env:
+      ECR_REPO: 908340056972.dkr.ecr.us-west-2.amazonaws.com
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    steps:
+      - name: Parse Env Values
+        run: echo ::set-env name=CI_COMMIT_ID::${GITHUB_SHA} && echo ::set-env name=CI_REPO_NAME::${GITHUB_REPOSITORY:11} && echo ::set-env name=IMAGE_REF::$ECR_REPO/${GITHUB_REPOSITORY:11}:${GITHUB_SHA}
+      - name: Checkout Branch
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+          ref: ${{ github.ref }}
+      - name: Login to ECR
+        id: aws
+        if: success()
+        uses: ./.github/actions/aws
+        with:
+          AWS_CMD: "ecr-login.sh"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: build
+        run: docker build -f Dockerfile -t $IMAGE_REF -t api-og .
+      - name: create network
+        run: docker network create -d bridge dev-network
+      - name: compose up
+        run: docker-compose -f docker-compose.yml -f docker-compose-pg.yml up -d console postgres
+      - name: lint setup
+        run: docker-compose exec -T console bundle install --with test
+      - name: lint
+        run: docker-compose exec -T console bundle exec rubocop
+      - name: init db
+        run: docker-compose exec -T console ./tools/tests.sh -i
+      - name: test
+        run: docker-compose exec -T console ./tools/tests.sh -a
+      - name: Push to ECR
+        id: ecrPush
+        if: success()
+        run: ${{ steps.aws.outputs.response }} && docker push $IMAGE_REF
+      - name: Add Tags
+        id: ecrTags
+        if: success()
+        uses: ./.github/actions/aws
+        with:
+          AWS_CMD: "ecr-add-tag.sh $CI_COMMIT_ID latest"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

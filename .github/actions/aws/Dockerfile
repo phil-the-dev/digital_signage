@@ -1,0 +1,20 @@
+FROM python:alpine
+
+ARG CLI_VERSION=1.16.240
+ARG AWS_CMD
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+ARG AWS_DEFAULT_REGION="us-west-2"
+
+ENV AWS_CMD=$AWS_CMD
+ENV AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+ENV AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+ENV AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+
+RUN apk -uv add --no-cache groff jq less && \
+  pip3 install --no-cache-dir awscli==${CLI_VERSION}
+
+WORKDIR /aws
+COPY $AWS_CMD ./
+
+ENTRYPOINT [ "/bin/sh", "-c", "echo ::set-output name=response::$(/aws/$AWS_CMD)" ] 

@@ -1,5 +1,15 @@
 #!/bin/sh
 
+if [ -f .env ]
+then
+# Debian / mac agnostic script which will load .env file into environment, ignoring comments and preserving spaces. 
+  set -o allexport
+  eval $(grep -v '^#' .env | sed 's/^/export /')
+  set +o allexport
+else
+  echo "No .env file supplied, falling back to parameter store values."
+fi
+
 set -e
 
 if [ -f tmp/pids/server.pid ]; then
